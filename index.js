@@ -9,13 +9,14 @@ const { Client, auth } = require("twitter-api-sdk");
 const {getToken} = require('./tokenService');
 const qs = require("qs");
 const Twitter = require('twitter');
+const { authenticateToken } = require("./middleware");
 
 var corsOptions = {
   origin: [
     "http://localhost:3000", "https://voluble-unicorn-fad212.netlify.app"
   ],
   exposedHeaders: ["Authorization", "Access-Control-Allow-Origin"],
-  preflightContinue: false,
+  preflightContinue: true
 };
 
 app.use(express.json());
@@ -39,7 +40,7 @@ app.get("/", function (req, res) {
   res.status(200).send({message: "Site working"});
 })
 
-app.get("/username", async function (req, res) {
+app.get("/username", authenticateToken, async function (req, res) {
     try{
       const clientUsernameToken = new Client(process.env.BEARER_TOKEN);
       const {toUsername, fromUsername} = req.query;
@@ -54,7 +55,7 @@ app.get("/username", async function (req, res) {
     }
 })
 
-app.post('/api/tweet', async (req, res) => {
+app.post('/api/tweet', authenticateToken, async (req, res) => {
   try {
     const tweet = req.body.tweetText;
     const twitter = new Twitter({
