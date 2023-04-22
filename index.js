@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const port = process.env.PORT;
 const cors = require("cors");
 const axios = require("axios");
 const { TwitterApi } = require("twitter-api-v2");
@@ -194,4 +193,4 @@ app.post('/api/tweet', async (req, res) => {
 //     });
 // });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(process.env.PORT || 443, () => console.log(`Example app listening on port ${process.env.PORT}!`));
