@@ -41,13 +41,15 @@ app.get("/", function (req, res) {
 
 app.get("/username", async function (req, res) {
     try{
+      const clientUsernameToken = new Client(process.env.BEARER_TOKEN);
       const {toUsername, fromUsername} = req.query;
-      const user = await client.users.findUsersByUsername({
+      const user = await clientUsernameToken.users.findUsersByUsername({
         usernames: [toUsername, fromUsername],
         "user.fields": ["profile_image_url"]
       })
       res.status(200).send({profiles:user.data, status: true});
     } catch (error) {
+      console.log(error);
       res.status(401).send({message:'Error retrieving username', status: false});
     }
 })
