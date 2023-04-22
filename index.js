@@ -13,7 +13,7 @@ const Twitter = require('twitter');
 
 var corsOptions = {
   origin: [
-    "http://localhost:3000"
+    "http://localhost:3000", ""
   ],
   exposedHeaders: ["Authorization", "Access-Control-Allow-Origin"],
   preflightContinue: false,
@@ -35,6 +35,10 @@ const client = new Client(authClient);
 const STATE = "my-state";
 
 // const client = new Client(process.env.BEARER_TOKEN);
+
+app.get("/", function (req, res) {
+  res.status(200).send({message: "Site working"});
+})
 
 app.get("/username", async function (req, res) {
     try{
