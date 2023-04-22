@@ -12,7 +12,7 @@ const Twitter = require('twitter');
 
 var corsOptions = {
   origin: [
-    "http://localhost:3000", ""
+    "http://localhost:3000", "https://voluble-unicorn-fad212.netlify.app"
   ],
   exposedHeaders: ["Authorization", "Access-Control-Allow-Origin"],
   preflightContinue: false,
