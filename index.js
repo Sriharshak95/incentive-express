@@ -143,33 +143,6 @@ app.get("/api/tweet/random", async (req, res) => {
     });
 });
 
-app.post('/api/tweet', async (req, res) => {
-  const tweet = req.body.tweet;
-  if (!tweet) {
-    res.status(400).json({ error: 'Tweet is required' });
-    return;
-  }
-  const accessToken = await getToken();
-  const client = new Twitter({
-    consumer_key: process.env.KEY,
-    consumer_secret: process.env.SECRET,
-    access_token_key: accessToken,
-    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
-  });
-  const tweetParams = {
-    status: tweet,
-  };
-  client.post('statuses/update', tweetParams, function (error, tweet, response) {
-    if (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to send tweet' });
-    } else {
-      res.json({ tweet });
-    }
-  });
-});
-
-
 // app.get("/api/tweet/user", async (req, res) => {
 //   const config = {
 //     headers: {
