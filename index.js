@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 const authClient = new auth.OAuth2User({
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
-  callback: "http://127.0.0.1:443/callback",
+  callback: window.location.origin+"/callback",
   scopes: ["tweet.read", "users.read"],
 });
 
