@@ -143,29 +143,4 @@ app.get("/api/tweet/random", async (req, res) => {
     });
 });
 
-// app.get("/api/tweet/user", async (req, res) => {
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${await tokenService.getToken()}`,
-//     },
-//     params: {
-//       count: 10,
-//       tweet_mode: "extended",
-//       include_rts: true,
-//       result_type: "recent",
-//       screen_name: req.query.screenname,
-//     },
-//   };
-
-//   axios
-//     .get("https://api.twitter.com/1.1/statuses/user_timeline.json", config)
-//     .then((twitterResponse) => {
-//       res.send(twitterResponse.data);
-//     })
-//     .catch((err) => {
-//       res.status(401).send(err);
-//       res.status(500).send(err);
-//     });
-// });
-
 app.listen(process.env.PORT || 443, () => console.log(`Example app listening on port ${process.env.PORT}!`));
