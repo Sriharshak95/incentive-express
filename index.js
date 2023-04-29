@@ -49,7 +49,6 @@ app.get("/username", async function (req, res) {
       })
       res.status(200).send({profiles:user.data, status: true});
     } catch (error) {
-      console.log(error);
       res.status(401).send({message:'Error retrieving username', status: false});
     }
 })
