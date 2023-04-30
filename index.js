@@ -24,7 +24,7 @@ app.use(cors(corsOptions));
 const authClient = new auth.OAuth2User({
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
-  callback: "https://incentive-app.onrender.com/callback",
+  callback: "http://localhost:443/callback",
   scopes: ["tweet.read", "users.read"],
 });
 
