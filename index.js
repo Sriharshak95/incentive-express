@@ -39,6 +39,19 @@ app.get("/", function (req, res) {
   res.status(200).send({message: "Site working"});
 })
 
+app.get("/me", async function (req, res) {
+  try {
+    const clientUsernameToken = new Client(process.env.BEARER_TOKEN);
+    const {username} = req.query;
+    const user = await clientUsernameToken.users.findUserByUsername(username, {
+      "user.fields": ["name","profile_image_url"]
+    });
+    res.status(200).send({user: user.data, status: true});
+  } catch(error) {
+    res.status(401).send({message: 'Cannot get user details', status: false});
+  }
+})
+
 app.get("/username", async function (req, res) {
     try{
       const clientUsernameToken = new Client(process.env.BEARER_TOKEN);
@@ -51,6 +64,29 @@ app.get("/username", async function (req, res) {
     } catch (error) {
       res.status(401).send({message:'Error retrieving username', status: false});
     }
+})
+
+
+app.get("/usernames", async function (req, res) {
+  try {
+    const {name} = req.query;
+    const twitter = new Twitter({
+      consumer_key: process.env.KEY,
+      consumer_secret: process.env.SECRET,
+      access_token_key: process.env.ACCESS_TOKEN,
+      access_token_secret: process.env.ACCESS_TOKEN_SECRET
+    });
+
+    twitter.get('users/search', {q: name})
+    .then((data) => {
+      res.status(200).send({userList:data, status:true})
+    })
+    .catch((err) => {
+      res.status(401).send({message: err[0].message, status:false});
+    });
+  } catch (error) {
+    res.status(401).send({message: 'Cannot send tweet', status: false})
+  }
 })
 
 app.post('/api/tweet', async (req, res) => {
