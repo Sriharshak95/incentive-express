@@ -8,6 +8,7 @@ const CALLBACK_URL = "http://localhost:443/api/auth/callback/twitter";
 const { Client, auth } = require("twitter-api-sdk");
 const {getToken} = require('./tokenService');
 const qs = require("qs");
+var path = require("path");
 const Twitter = require('twitter');
 
 var corsOptions = {
@@ -34,10 +35,6 @@ const client = new Client(authClient);
 const STATE = "my-state";
 
 // const client = new Client(process.env.BEARER_TOKEN);
-
-app.get("/", function (req, res) {
-  res.status(200).send({message: "Site working"});
-})
 
 app.get("/me", async function (req, res) {
   try {
@@ -178,4 +175,11 @@ app.get("/api/tweet/random", async (req, res) => {
     });
 });
 
-app.listen(process.env.PORT || 443, () => console.log(`Example app listening on port ${process.env.PORT}!`));
+app.use(express.static("client/build"));
+
+app.get("/", function (request, response) {
+  const filePath = path.resolve(__dirname, "client", "build", "index.html");
+  response.sendFile(filePath);
+}); 
+
+app.listen(process.env.PORT || 666, () => console.log(`Example app listening on port ${process.env.PORT}!`));
